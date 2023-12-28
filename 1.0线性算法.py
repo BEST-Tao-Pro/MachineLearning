@@ -31,4 +31,3 @@ plt.plot(w_list, mse_list)
 plt.xlabel('w')
 plt.ylabel('LOSS')
 plt.show()
-

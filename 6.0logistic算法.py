@@ -1,20 +1,28 @@
 import torch.nn.functional as F
 import torch
+import numpy as np
 
-x_data = torch.Tensor([[1.0], [2.0], [3.0]])
-y_data = torch.Tensor([[0], [0], [1]])
+xy = np.loadtxt('diabetes.csv.gz', delimiter=',', dtype=np.float32)
+x_data = torch.from_numpy(xy[:, :-1])
+y_data = torch.from_numpy(xy[:, [-1]])
 
 
-class LogisticRegressionModel(torch.nn.Module):
+class Model(torch.nn.Module):
     def __init__(self):
-        super(LogisticRegressionModel, self).__init__()
-        self.linear = torch.nn.Linear(1, 1)
+        super(Model, self).__init__()
+        self.linear1 = torch.nn.Linear(8, 6)
+        self.linear2 = torch.nn.Linear(6, 4)
+        self.linear3 = torch.nn.Linear(4, 1)
+        self.sigmoid = torch.nn.Sigmoid()
 
     def forward(self, x):
-        y_pred = F.sigmoid(self.linear(x))
-        return y_pred
+        x = F.sigmoid(self.linear1(x))
+        x = F.sigmoid(self.linear2(x))
+        x = F.sigmoid(self.linear3(x))
+        return x
 
-model = LogisticRegressionModel()
+
+model = Model()
 criterion = torch.nn.BCELoss(size_average=False)
 optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
 for epoch in range(100):
@@ -25,8 +33,8 @@ for epoch in range(100):
     loss.backward()
     optimizer.step()
 
-print('w=', model.linear.weight.item())
-print('b=', model.linear.bias.item())
-x_test = torch.Tensor([[4.0]])
-y_test = model(x_test)
-print('y_pred=', y_test.data)
+# print('w=', model.linear.weight.item())
+# print('b=', model.linear.bias.item())
+# x_test = torch.Tensor([[4.0]])
+# y_test = model(x_test)
+# print('y_pred=', y_test.data)

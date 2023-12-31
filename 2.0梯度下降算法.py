@@ -27,7 +27,7 @@ def gradient(xs, ys):
 
 
 print('prediction:', 4, forward(4))
-for epoch in range(100):
+for epoch in range(10000):
     cost_val = cost(x_data, y_data)
     grad_val = gradient(x_data, y_data)
     w -= 0.99* grad_val

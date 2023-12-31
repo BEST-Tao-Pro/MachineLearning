@@ -1,7 +1,6 @@
 import numpy as np
 import torch
-from jinja2 import optimizer
-from onedal._onedal_py_host.decision_forest.classification import model
+
 from torch.utils.data import DataLoader
 from torch.utils.data import Dataset
 
@@ -40,7 +39,7 @@ class Model(torch.nn.Module):
 
 
 model = Model()
-criterion = torch.nn.BCELoss(size_average=False)
+criterion = torch.nn.BCELoss(size_average=True)
 optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
 if __name__=='__main__':
     for epoch in range(100):

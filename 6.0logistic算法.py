@@ -23,7 +23,7 @@ class Model(torch.nn.Module):
 
 
 model = Model()
-criterion = torch.nn.BCELoss(size_average=False)
+criterion = torch.nn.BCELoss(size_average=True)
 optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
 for epoch in range(100):
     y_pred = model(x_data)
